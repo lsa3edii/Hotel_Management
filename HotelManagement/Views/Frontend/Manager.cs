@@ -1,4 +1,8 @@
-﻿using Lab15.Context;
+﻿using HotelManagement.Bogus;
+using HotelManagement.Dapper.Managers;
+using HotelManagement.Views;
+using Lab15.Context;
+using Lab15.Dapper.Entities;
 using Lab15.Entities;
 using Lab15.Views.Kitchen;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +29,8 @@ namespace Lab15.Views.Frontend
         ReservationContext context;
         BindingSource bindingSource;
 
+        ReservationManager manager;
+
 
         private const int DWMWA_CAPTION_COLOR = 35;
 
@@ -39,6 +45,8 @@ namespace Lab15.Views.Frontend
             HideBtns();
             login = _login;
 
+            manager = new();
+
             this.Load += (s, e) =>
             {
                 int darkColor = ColorTranslator.ToWin32(Color.Black);
@@ -47,6 +55,8 @@ namespace Lab15.Views.Frontend
         }
 
 
+
+        #region EF Manager_Load
         private async void Manager_Load(object sender, EventArgs e)
         {
             using (context = new())
@@ -68,8 +78,38 @@ namespace Lab15.Views.Frontend
                 }
             }
         }
+        #endregion
+
+        #region Dapper Manager_Load
+        //private async void Manager_Load(object sender, EventArgs e)
+        //{
+        //    using (context = new())
+        //    {
+        //        try
+        //        {
+        //            //manager = new(context);
+        //            //Trace.WriteLine(manager.GetByID(31));
+
+        //            var reservations = manager.GetAll();
+        //            bindingSource = new BindingSource { DataSource = reservations };
+
+        //            reservation_table.DataSource = bindingSource;
+        //            reserved_table.DataSource = await context.RservedRooms();
+        //            occupied_table.DataSource = await context.OccupiedRooms();
+
+        //            HideTableColumns();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        }
+        //    }
+        //}
+        #endregion
 
 
+
+        #region EF search_list_TextChanged
         private void search_list_TextChanged(object sender, EventArgs e)
         {
             using (context = new())
@@ -78,8 +118,8 @@ namespace Lab15.Views.Frontend
                 {
                     string searchText = search_list.Text.Trim();
 
-                    bindingSource.DataSource = context.Reservations.IgnoreQueryFilters()
-                        .Where(R => R.Id.ToString().Contains(searchText) || R.FirstName.Contains(searchText))
+                    bindingSource.DataSource = context.Reservations.IgnoreQueryFilters().ToList()
+                        .Where(R => R.Id.ToString().Contains(searchText) || R.FullName.ToLower().Contains(searchText.ToLower()))
                         .ToList();
 
                     reserv_list.DataSource = bindingSource;
@@ -90,6 +130,28 @@ namespace Lab15.Views.Frontend
                 }
             }
         }
+        #endregion
+
+        #region Dapper search_list_TextChanged
+        //private void search_list_TextChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        string searchText = search_list.Text.Trim();
+
+        //        bindingSource.DataSource = manager.GetAll()
+        //            .Where(R => R.Id.ToString().Contains(searchText) || R.FullName.ToLower().Contains(searchText.ToLower()))
+        //            .ToList();
+
+        //        reserv_list.DataSource = bindingSource;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
+        #endregion
+
 
 
         private void search_TextChanged(object sender, EventArgs e)
@@ -115,9 +177,12 @@ namespace Lab15.Views.Frontend
         }
 
 
+
+        #region EF new_reserv_btn_Click
         private void new_reserv_btn_Click(object sender, EventArgs e)
         {
-            HideBtns();
+            //HideBtns();
+
             if (fname.Text != string.Empty && lname.Text != string.Empty && year.Text != string.Empty
                 && phone_num.Text != string.Empty && email.Text != string.Empty && address.Text != string.Empty)
             {
@@ -179,8 +244,74 @@ namespace Lab15.Views.Frontend
             else
                 MessageBox.Show("Please check data u entered..!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+        #endregion
+
+        #region Dapper new_reserv_btn_Click
+        //private void new_reserv_btn_Click(object sender, EventArgs e)
+        //{
+        //    //HideBtns();
+
+        //    if (fname.Text != string.Empty && lname.Text != string.Empty && year.Text != string.Empty
+        //        && phone_num.Text != string.Empty && email.Text != string.Empty && address.Text != string.Empty)
+        //    {
+        //        try
+        //        {
+        //            manager.Insert(
+        //            new ReservationDapper
+        //            {
+        //                First_Name = fname.Text,
+        //                Last_Name = lname.Text,
+        //                Birth_Day = day.Text + "-" + month.Text + "-" + year.Text,
+        //                Gender = gender.Text,
+        //                Phone_Number = phone_num.Text,
+        //                Email_Address = email.Text,
+        //                Number_Guest = int.Parse(num_guest.Text),
+        //                Street_Address = address.Text,
+        //                Apt_Suite = apt_suite.Text,
+        //                City = city.Text,
+        //                State = state.Text,
+        //                Zip_Code = zip_code.Text,
+        //                Room_Type = room_type.Text,
+        //                Room_Floor = room_floor.Text,
+        //                Room_Number = room_no.Text,
+
+        //                Total_Bill = 0,
+        //                Payment_Type = "",
+        //                Card_Type = "",
+        //                Card_Number = "",
+        //                Card_Exp = "",
+        //                Card_Cvc = "",
+        //                Food_Bill = 0,
+
+        //                Arrival_Time = entry_date.Value,
+        //                Leaving_Time = departure_date.Value,
+
+        //                Check_In = checkedin_chbox.Checked,
+        //                Break_Fast = 0,
+        //                Lunch = 0,
+        //                Dinner = 0,
+        //                Cleaning = false,
+        //                Towel = false,
+        //                S_Surprise = false,
+        //                Supply_Status = false
+        //            });
+
+        //            RefreshBindingSource();
+        //            MessageBox.Show("Successfully Added!!", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        }
+        //    }
+        //    else
+        //        MessageBox.Show("Please check data u entered..!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //}
+        #endregion
 
 
+
+        #region EF edit_reserv_btn_Click
         private async void edit_reserv_btn_Click(object sender, EventArgs e)
         {
             ShowBtns();
@@ -211,8 +342,44 @@ namespace Lab15.Views.Frontend
                 }
             }
         }
+        #endregion
+
+        #region Dapper edit_reserv_btn_Click
+        //private async void edit_reserv_btn_Click(object sender, EventArgs e)
+        //{
+        //    ShowBtns();
+
+        //    //if (bindingSource != null)
+        //    //    bindingSource.Dispose();
+
+        //    //reserv_list.DataSource = null;
+
+        //    if (bindingSource.Current != null)
+        //    {
+        //        using (context = new())
+        //        {
+        //            try
+        //            {
+        //                var reservations = manager.GetAll();
+        //                bindingSource = new BindingSource { DataSource = reservations };
+
+        //                reserv_list.DataSource = bindingSource;
+
+        //                SelectedListIndexChanged();
+        //                RefreshBindingSource();
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //            }
+        //        }
+        //    }
+        //}
+        #endregion
 
 
+
+        #region EF updata_btn_Click
         private void updata_btn_Click(object sender, EventArgs e)
         {
             try
@@ -236,31 +403,34 @@ namespace Lab15.Views.Frontend
                 MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
 
-        private async void RefreshBindingSource()
-        {
-            using (context = new ReservationContext())
-            {
-                try
-                {
-                    bindingSource.DataSource = context.Reservations.IgnoreQueryFilters().ToList();
+        #region Dapper updata_btn_Click
+        //private void updata_btn_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (bindingSource.Current != null && MessageBox.Show("Are you sure you want to update this reservation?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+        //        {
+        //            var reservation = (ReservationDapper)bindingSource.Current;
+        //            manager.Update(reservation);
 
-                    reservation_table.DataSource = bindingSource;
-                    reserv_list.DataSource = bindingSource;
-
-                    reserved_table.DataSource = await context.RservedRooms();
-                    occupied_table.DataSource = await context.OccupiedRooms();
-
-                    HideTableColumns();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
+        //            RefreshBindingSource();
+        //            MessageBox.Show("Reservation Updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //        }
+        //        else
+        //            MessageBox.Show("No reservation selected!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
+        #endregion
 
 
+
+        #region EF delete_btn_Click
         private void delete_btn_Click(object sender, EventArgs e)
         {
             try
@@ -286,6 +456,84 @@ namespace Lab15.Views.Frontend
                 MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
+
+        #region dapper delete_btn_Click
+        //private void delete_btn_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (bindingSource.Current != null && MessageBox.Show("Are you sure you want to delete this reservation?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+        //        {
+        //            var reservation = (ReservationDapper)bindingSource.Current;
+        //            manager.Delete(reservation.Id);
+
+        //            bindingSource.RemoveCurrent();
+
+        //            RefreshBindingSource();
+        //            MessageBox.Show("Reservation deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //        }
+        //        else
+        //            MessageBox.Show("No reservation selected!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
+        #endregion
+
+
+
+        #region EF RefreshBindingSource
+        private async void RefreshBindingSource()
+        {
+            using (context = new ReservationContext())
+            {
+                try
+                {
+                    bindingSource.DataSource = context.Reservations.IgnoreQueryFilters().ToList();
+
+                    reservation_table.DataSource = bindingSource;
+                    reserv_list.DataSource = bindingSource;
+
+                    reserved_table.DataSource = await context.RservedRooms();
+                    occupied_table.DataSource = await context.OccupiedRooms();
+
+                    HideTableColumns();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        #endregion
+
+        #region Dapper RefreshBindingSource
+        //private async void RefreshBindingSource()
+        //{
+        //    using (context = new ReservationContext())
+        //    {
+        //        try
+        //        {
+        //            bindingSource.DataSource = manager.GetAll();
+
+        //            reservation_table.DataSource = bindingSource;
+        //            reserv_list.DataSource = bindingSource;
+
+        //            reserved_table.DataSource = await context.RservedRooms();
+        //            occupied_table.DataSource = await context.OccupiedRooms();
+
+        //            HideTableColumns();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        }
+        //    }
+        //}
+        #endregion
 
 
 
@@ -308,6 +556,7 @@ namespace Lab15.Views.Frontend
 
 
 
+        #region EF SelectedListIndexChanged
         private void SelectedListIndexChanged()
         {
             fname.DataBindings.Clear();
@@ -363,6 +612,66 @@ namespace Lab15.Views.Frontend
             //day.Text = "hh";
             //day.Items.Add("hh");
         }
+        #endregion
+
+        #region Dapper SelectedListIndexChanged
+        //private void SelectedListIndexChanged()
+        //{
+        //    fname.DataBindings.Clear();
+        //    lname.DataBindings.Clear();
+        //    day.DataBindings.Clear();
+        //    month.DataBindings.Clear();
+        //    year.DataBindings.Clear();
+        //    phone_num.DataBindings.Clear();
+        //    gender.DataBindings.Clear();
+        //    email.DataBindings.Clear();
+        //    address.DataBindings.Clear();
+        //    apt_suite.DataBindings.Clear();
+        //    city.DataBindings.Clear();
+        //    state.DataBindings.Clear();
+        //    zip_code.DataBindings.Clear();
+        //    num_guest.DataBindings.Clear();
+        //    room_type.DataBindings.Clear();
+        //    room_floor.DataBindings.Clear();
+        //    room_no.DataBindings.Clear();
+        //    entry_date.DataBindings.Clear();
+        //    departure_date.DataBindings.Clear();
+        //    checkedin_chbox.DataBindings.Clear();
+        //    supply_chbox.DataBindings.Clear();
+        //    //send_sms_chbox.DataBindings.Clear();
+
+        //    fname.DataBindings.Add("Text", bindingSource, "first_name");
+        //    lname.DataBindings.Add("Text", bindingSource, "last_name");
+        //    day.DataBindings.Add("Text", bindingSource, "day");
+        //    month.DataBindings.Add("Text", bindingSource, "month");
+        //    year.DataBindings.Add("Text", bindingSource, "year");
+        //    phone_num.DataBindings.Add("Text", bindingSource, "phone_number");
+        //    gender.DataBindings.Add("Text", bindingSource, "gender");
+        //    email.DataBindings.Add("Text", bindingSource, "Email_Address");
+        //    address.DataBindings.Add("Text", bindingSource, "Street_Address");
+        //    apt_suite.DataBindings.Add("Text", bindingSource, "apt_suite");
+        //    city.DataBindings.Add("Text", bindingSource, "city");
+        //    state.DataBindings.Add("Text", bindingSource, "state");
+        //    zip_code.DataBindings.Add("Text", bindingSource, "zip_code");
+        //    num_guest.DataBindings.Add("Text", bindingSource, "Number_Guest");
+        //    room_type.DataBindings.Add("Text", bindingSource, "Room_Type");
+        //    room_floor.DataBindings.Add("Text", bindingSource, "Room_Floor");
+        //    room_no.DataBindings.Add("Text", bindingSource, "Room_Number");
+
+        //    //entry_date.DataBindings.Add("Value", bindingSource, "ArrivalTime");  // Use "Value" instead of "Text" for DateTimePicker
+        //    //departure_date.DataBindings.Add("Value", bindingSource, "LeavingTime");
+        //    entry_date.DataBindings.Add("Value", bindingSource, "Arrival_Time", true, DataSourceUpdateMode.OnValidation, DateTime.Today);
+        //    departure_date.DataBindings.Add("Value", bindingSource, "Leaving_Time", true, DataSourceUpdateMode.OnValidation, DateTime.Today.AddDays(1));
+
+        //    checkedin_chbox.DataBindings.Add("Checked", bindingSource, "check_in", true, DataSourceUpdateMode.OnPropertyChanged);
+        //    supply_chbox.DataBindings.Add("Checked", bindingSource, "Supply_Status", true, DataSourceUpdateMode.OnPropertyChanged);
+        //    //send_sms_chbox.DataBindings.Add("Checked", bindingSource, "", true, DataSourceUpdateMode.OnPropertyChanged);
+
+        //    //day.Text = "hh";
+        //    //day.Items.Add("hh");
+        //}
+        #endregion
+
 
 
         private void HideTableColumns()
@@ -383,16 +692,19 @@ namespace Lab15.Views.Frontend
             logout.BackColor = Color.DarkGray;
         }
 
+
         private void logout_MouseLeave(object sender, EventArgs e)
         {
             logout.BackColor = Color.Gainsboro;
         }
+
 
         private void refresh_MouseEnter(object sender, EventArgs e)
         {
             new System.Windows.Forms.ToolTip().SetToolTip(refresh, "Refresh");
             refresh.BackColor = Color.DarkGray;
         }
+
 
         private void refresh_MouseLeave(object sender, EventArgs e)
         {
@@ -409,6 +721,7 @@ namespace Lab15.Views.Frontend
             HideBtns();
         }
 
+
         private void HideBtns()
         {
             reserv_list.Hide();
@@ -420,6 +733,7 @@ namespace Lab15.Views.Frontend
             food_btn.Enabled = false;
             finalize_btn.Enabled = false;
         }
+
 
         private void ShowBtns()
         {
@@ -441,6 +755,7 @@ namespace Lab15.Views.Frontend
                 Application.Exit();
         }
 
+
         private void logout_Click(object sender, EventArgs e)
         {
             isNavigatingBack = true;
@@ -450,6 +765,7 @@ namespace Lab15.Views.Frontend
 
             login.ClearData();
         }
+
 
         private void clear_btn_Click(object sender, EventArgs e)
         {
@@ -477,6 +793,19 @@ namespace Lab15.Views.Frontend
             checkedin_chbox.Checked = false;
             send_sms_chbox.Checked = false;
             supply_chbox.Checked = false;
+        }
+
+
+        private void generate_data_btn_Click(object sender, EventArgs e)
+        {
+            new Prompt2("Are you sure you want to generate fake data?", 1).ShowDialog();
+            RefreshBindingSource();
+        }
+
+
+        private void benchmark_btn_Click(object sender, EventArgs e)
+        {
+            new Prompt2("Are you sure you want to benchmark between EF and Dapper?", 2).ShowDialog();
         }
 
     }

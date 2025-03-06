@@ -1,0 +1,7 @@
+// Validating benchmarks:
+// ***** BenchmarkRunner: Start   *****
+// ***** Found 6 benchmark(s) in total *****
+// ***** Building 1 exe(s) in Parallel: Start   *****
+// start dotnet  restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:IntermediateOutputPath="D:\Hotel Management\Benchmark\bin\Release\net9.0\17e8cd29-5cd7-4956-95c1-ddfcd9363ea9\obj\Release\net9.0/" /p:OutDir="D:\Hotel Management\Benchmark\bin\Release\net9.0\17e8cd29-5cd7-4956-95c1-ddfcd9363ea9\bin\Release\net9.0/" /p:OutputPath="D:\Hotel Management\Benchmark\bin\Release\net9.0\17e8cd29-5cd7-4956-95c1-ddfcd9363ea9\bin\Release\net9.0/" in D:\Hotel Management\Benchmark\bin\Release\net9.0\17e8cd29-5cd7-4956-95c1-ddfcd9363ea9
+// command took 2.93 sec and exited with 0
+// start dotnet  build -c Release --no-restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:IntermediateOutputPath="D:\Hotel Management\Benchmark\bin\Release\net9.0\17e8cd29-5cd7-4956-95c1-ddfcd9363ea9\obj\Release\net9.0/" /p:OutDir="D:\Hotel Management\Benchmark\bin\Release\net9.0\17e8cd29-5cd7-4956-95c1-ddfcd9363ea9\bin\Release\net9.0/" /p:OutputPath="D:\Hotel Management\Benchmark\bin\Release\net9.0\17e8cd29-5cd7-4956-95c1-ddfcd9363ea9\bin\Release\net9.0/" --output "D:\Hotel Management\Benchmark\bin\Release\net9.0\17e8cd29-5cd7-4956-95c1-ddfcd9363ea9\bin\Release\net9.0/" in D:\Hotel Management\Benchmark\bin\Release\net9.0\17e8cd29-5cd7-4956-95c1-ddfcd9363ea9

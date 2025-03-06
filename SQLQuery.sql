@@ -183,4 +183,199 @@ delete from reservation where id = 20
 
 
 
+CREATE or alter PROCEDURE DeleteReservation
+    @Id INT
+AS
+BEGIN
+    --SET NOCOUNT ON; -- is a SQL Server command that prevents the message that shows the number of rows affected by a SQL statement from being returned for performance.
+
+    DELETE FROM [dbo].[reservation]
+    WHERE [Id] = @Id;
+END;
+
+begin tran
+EXEC DeleteReservation @Id = 5;
+-- commit
+-- rollback
+
+
+
+CREATE or alter PROCEDURE UpdateReservation
+    @Id INT,
+    @first_name NVARCHAR(50) = NULL,
+    @last_name NVARCHAR(50) = NULL,
+    @birth_day NVARCHAR(50) = NULL,
+    @gender NVARCHAR(50) = NULL,
+    @phone_number NVARCHAR(50) = NULL,
+    @email_address NVARCHAR(MAX) = NULL,
+    @number_guest INT = NULL,
+    @street_address NVARCHAR(MAX) = NULL,
+    @apt_suite NVARCHAR(50) = NULL,
+    @city NVARCHAR(MAX) = NULL,
+    @state NVARCHAR(50) = NULL,
+    @zip_code NCHAR(10) = NULL,
+    @room_type NCHAR(10) = NULL,
+    @room_floor NCHAR(10) = NULL,
+    @room_number NCHAR(10) = NULL,
+    @total_bill FLOAT = NULL,
+    @payment_type NCHAR(10) = NULL,
+    @card_type NCHAR(10) = NULL,
+    @card_number NVARCHAR(50) = NULL,
+    @card_exp NVARCHAR(50) = NULL,
+    @card_cvc NCHAR(10) = NULL,
+    @arrival_time DATE = NULL,
+    @leaving_time DATE = NULL,
+    @check_in BIT = NULL,
+    @break_fast INT = NULL,
+    @lunch INT = NULL,
+    @dinner INT = NULL,
+    @cleaning BIT = NULL,
+    @towel BIT = NULL,
+    @s_surprise BIT = NULL,
+    @supply_status BIT = NULL,
+    @food_bill INT = NULL
+AS
+BEGIN
+    -- SET NOCOUNT ON;
+
+    UPDATE reservation
+    SET 
+        first_name = ISNULL(@first_name, first_name),
+        last_name = ISNULL(@last_name, last_name),
+        birth_day = ISNULL(@birth_day, birth_day),
+        gender = ISNULL(@gender, gender),
+        phone_number = ISNULL(@phone_number, phone_number),
+        email_address = ISNULL(@email_address, email_address),
+        number_guest = ISNULL(@number_guest, number_guest),
+        street_address = ISNULL(@street_address, street_address),
+        apt_suite = ISNULL(@apt_suite, apt_suite),
+        city = ISNULL(@city, city),
+        state = ISNULL(@state, state),
+        zip_code = ISNULL(@zip_code, zip_code),
+        room_type = ISNULL(@room_type, room_type),
+        room_floor = ISNULL(@room_floor, room_floor),
+        room_number = ISNULL(@room_number, room_number),
+        total_bill = ISNULL(@total_bill, total_bill),
+        payment_type = ISNULL(@payment_type, payment_type),
+        card_type = ISNULL(@card_type, card_type),
+        card_number = ISNULL(@card_number, card_number),
+        card_exp = ISNULL(@card_exp, card_exp),
+        card_cvc = ISNULL(@card_cvc, card_cvc),
+        arrival_time = ISNULL(@arrival_time, arrival_time),
+        leaving_time = ISNULL(@leaving_time, leaving_time),
+        check_in = ISNULL(@check_in, check_in),
+        break_fast = ISNULL(@break_fast, break_fast),
+        lunch = ISNULL(@lunch, lunch),
+        dinner = ISNULL(@dinner, dinner),
+        cleaning = ISNULL(@cleaning, cleaning),
+        towel = ISNULL(@towel, towel),
+        s_surprise = ISNULL(@s_surprise, s_surprise),
+        supply_status = ISNULL(@supply_status, supply_status),
+        food_bill = ISNULL(@food_bill, food_bill)
+    WHERE Id = @Id;
+END;
+
+
+
+EXEC UpdateReservation
+    @Id = 31, 
+    @first_name = 'Alice', 
+    @gender = 'Female', 
+    @phone_number = '9876543210', 
+    @email_address = 'alice@example.com', 
+    @number_guest = 2, 
+    @street_address = '123 Main St', 
+    @apt_suite = 'Apt 4B', 
+    @city = 'New York', 
+    @state = 'NY', 
+    @zip_code = '10001', 
+    @room_type = 'Deluxe', 
+    @room_floor = '3', 
+    @room_number = '305', 
+    @total_bill = 500.00, 
+    @payment_type = 'Credit', 
+    @card_type = 'Visa', 
+    @card_number = '4111111111111111', 
+    @card_exp = '12/27', 
+    @card_cvc = '123', 
+    @arrival_time = '2025-06-01', 
+    @leaving_time = '2025-06-05';
+
+
+
+CREATE or alter PROCEDURE InsertReservation
+    @first_name NVARCHAR(50),
+    @last_name NVARCHAR(50),
+    @birth_day NVARCHAR(50),
+    @gender NVARCHAR(50),
+    @phone_number NVARCHAR(50),
+    @email_address NVARCHAR(MAX),
+    @number_guest INT,
+    @street_address NVARCHAR(MAX),
+    @apt_suite NVARCHAR(50),
+    @city NVARCHAR(MAX),
+    @state NVARCHAR(50),
+    @zip_code NCHAR(10),
+    @room_type NCHAR(10),
+    @room_floor NCHAR(10),
+    @room_number NCHAR(10),
+    @total_bill FLOAT,
+    @payment_type NCHAR(10),
+    @card_type NCHAR(10),
+    @card_number NVARCHAR(50),
+    @card_exp NVARCHAR(50),
+    @card_cvc NCHAR(10),
+    @arrival_time DATE,
+    @leaving_time DATE,
+    @check_in BIT,
+    @break_fast INT,
+    @lunch INT,
+    @dinner INT,
+    @cleaning BIT,
+    @towel BIT,
+    @s_surprise BIT,
+    @supply_status BIT,
+    @food_bill INT
+AS
+BEGIN
+    -- SET NOCOUNT ON;
+
+    INSERT INTO reservation (
+        first_name, last_name, birth_day, gender, phone_number, email_address, 
+        number_guest, street_address, apt_suite, city, state, zip_code, room_type, 
+        room_floor, room_number, total_bill, payment_type, card_type, card_number, 
+        card_exp, card_cvc, arrival_time, leaving_time, check_in, break_fast, lunch, 
+        dinner, cleaning, towel, s_surprise, supply_status, food_bill
+    ) VALUES (
+        @first_name, @last_name, @birth_day, @gender, @phone_number, @email_address, 
+        @number_guest, @street_address, @apt_suite, @city, @state, @zip_code, @room_type, 
+        @room_floor, @room_number, @total_bill, @payment_type, @card_type, @card_number, 
+        @card_exp, @card_cvc, @arrival_time, @leaving_time, @check_in, @break_fast, @lunch, 
+        @dinner, @cleaning, @towel, @s_surprise, @supply_status, @food_bill
+    );
+
+
+    -- Return the last inserted ID
+    -- SELECT SCOPE_IDENTITY() AS NewReservationID;
+END;
+
+
+
+CREATE or alter PROCEDURE SelectAllReservation
+as
+begin
+	select * from reservation
+end
+
+exec SelectAllReservation
+
+
 select * from reservation
+select * from reservation where Id = 31
+
+delete from reservation where Id between 1001 and 50000;
+
+
+update reservation
+set first_name = 'Muhammed', last_name = 'Abdo'
+where id = 555

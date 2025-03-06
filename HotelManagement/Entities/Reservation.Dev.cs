@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab15.Entities
 {
-    partial class Reservation
+    public partial class Reservation
     {
         public override string ToString()
             => $"{Id} | {FullName} | {PhoneNumber}";

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Benchmark.TestBenchmark-20250306-141534</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26100.3323)
+Intel Core i7-10750H CPU 2.60GHz, 1 CPU, 12 logical and 6 physical cores
+.NET SDK 9.0.200
+  [Host]     : .NET 9.0.2 (9.0.225.6610), X64 RyuJIT AVX2
+  DefaultJob : .NET 9.0.2 (9.0.225.6610), X64 RyuJIT AVX2
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>Method       </th><th>Mean </th><th>Error</th><th>StdDev</th><th>Median</th>
+</tr>
+</thead><tbody><tr><td>SearchWithEF</td><td>8,874.2 &mu;s</td><td>155.62 &mu;s</td><td>412.69 &mu;s</td><td>8,706.4 &mu;s</td>
+</tr><tr><td>SearchWithDapper</td><td>77,798.1 &mu;s</td><td>1,541.82 &mu;s</td><td>4,373.89 &mu;s</td><td>77,213.9 &mu;s</td>
+</tr><tr><td>SearchWithEF_SP</td><td>202.8 &mu;s</td><td>0.97 &mu;s</td><td>0.81 &mu;s</td><td>202.6 &mu;s</td>
+</tr><tr><td>SearchWithDapper_SP</td><td>75,383.5 &mu;s</td><td>1,474.45 &mu;s</td><td>2,503.73 &mu;s</td><td>74,970.6 &mu;s</td>
+</tr><tr><td>GetFirstWithEF</td><td>452.5 &mu;s</td><td>8.63 &mu;s</td><td>7.21 &mu;s</td><td>451.6 &mu;s</td>
+</tr><tr><td>GetFirstWithDapper</td><td>70,160.5 &mu;s</td><td>1,340.45 &mu;s</td><td>1,253.85 &mu;s</td><td>70,264.1 &mu;s</td>
+</tr></tbody></table>
+</body>
+</html>

@@ -97,6 +97,8 @@
             panel12 = new Panel();
             label3 = new Label();
             refresh = new PictureBox();
+            generate_data_btn = new Button();
+            benchmark_btn = new Button();
             ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
             groupBox1.SuspendLayout();
             tabs_btn.SuspendLayout();
@@ -902,12 +904,42 @@
             refresh.MouseEnter += refresh_MouseEnter;
             refresh.MouseLeave += refresh_MouseLeave;
             // 
+            // generate_data_btn
+            // 
+            generate_data_btn.BackColor = Color.Red;
+            generate_data_btn.Cursor = Cursors.Hand;
+            generate_data_btn.Font = new Font("Century Schoolbook", 13.8F, FontStyle.Bold | FontStyle.Italic);
+            generate_data_btn.ForeColor = Color.White;
+            generate_data_btn.Location = new Point(324, 723);
+            generate_data_btn.Name = "generate_data_btn";
+            generate_data_btn.Size = new Size(371, 50);
+            generate_data_btn.TabIndex = 15;
+            generate_data_btn.Text = "Generate Fake Data";
+            generate_data_btn.UseVisualStyleBackColor = false;
+            generate_data_btn.Click += generate_data_btn_Click;
+            // 
+            // benchmark_btn
+            // 
+            benchmark_btn.BackColor = Color.DarkCyan;
+            benchmark_btn.Cursor = Cursors.Hand;
+            benchmark_btn.Font = new Font("Century Schoolbook", 13.8F, FontStyle.Bold | FontStyle.Italic);
+            benchmark_btn.ForeColor = Color.White;
+            benchmark_btn.Location = new Point(701, 723);
+            benchmark_btn.Name = "benchmark_btn";
+            benchmark_btn.Size = new Size(257, 50);
+            benchmark_btn.TabIndex = 16;
+            benchmark_btn.Text = "Benchmark";
+            benchmark_btn.UseVisualStyleBackColor = false;
+            benchmark_btn.Click += benchmark_btn_Click;
+            // 
             // Manager
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gainsboro;
             ClientSize = new Size(1287, 785);
+            Controls.Add(benchmark_btn);
+            Controls.Add(generate_data_btn);
             Controls.Add(refresh);
             Controls.Add(logout);
             Controls.Add(tabs_btn);
@@ -1016,5 +1048,7 @@
         private Button clear_btn;
         private PictureBox pictureBox2;
         private TextBox search_list;
+        private Button generate_data_btn;
+        private Button benchmark_btn;
     }
 }
